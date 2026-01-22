@@ -1,0 +1,41 @@
+<div class="container mt-5">
+
+  <h2 class="mb-4 text-center text-primary fw-bold">📦 Category Management</h2>
+
+  <div class="mb-5">
+    <app-category-form
+      [category]="selected"
+      (saved)="load()">
+    </app-category-form>
+  </div>
+
+  <div class="table-responsive shadow" style="border-radius: 0;">
+    <table class="table table-hover align-middle mb-0">
+      <thead style="background-color: #0d3b66; color: white;">
+        <tr>
+          <th class="py-3">ID</th>
+          <th class="py-3 text-start">Name</th>
+          <th class="py-3 text-start">Description</th>
+          <th class="py-3 text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of categories">
+          <td class="py-3">{{ c.categoryId }}</td>
+          <td class="py-3 text-start">{{ c.categoryName }}</td>
+          <td class="py-3 text-start">{{ c.description }}</td>
+          <td class="py-3 text-center">
+            <button class="btn btn-warning btn-sm me-2" (click)="edit(c)">✏️ Edit</button>
+            <button class="btn btn-danger btn-sm" (click)="delete(c.categoryId!)">🗑 Delete</button>
+          </td>
+        </tr>
+
+        <tr *ngIf="!categories.length">
+          <td colspan="4" class="text-center text-muted py-4">
+            No categories available. Add new categories above.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

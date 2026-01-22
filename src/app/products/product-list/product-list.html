@@ -1,0 +1,42 @@
+<div class="container mt-4">
+
+  <app-product-form [product]="selected" (saved)="load()"></app-product-form>
+
+  <div class="table-responsive shadow">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="bg-primary text-white">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Expiry</th>
+          <th>Status</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of products">
+          <td>{{ p.productId }}</td>
+          <td>{{ p.name }}</td>
+          <td>{{ p.categoryName || '-' }}</td>
+          <td>{{ p.unitPrice | currency }}</td>
+          <td>{{ p.stockQty }}</td>
+          <td>{{ p.expiryDate | date:'yyyy-MM-dd' }}</td>
+          <td>{{ p.isActive ? 'Active' : 'Inactive' }}</td>
+          <td class="text-center">
+            <button class="btn btn-warning btn-sm me-2" (click)="edit(p)">✏️ Edit</button>
+            <button class="btn btn-danger btn-sm" (click)="delete(p.productId!)">🗑 Delete</button>
+          </td>
+        </tr>
+
+        <tr *ngIf="!products.length">
+          <td colspan="8" class="text-center text-muted py-3">
+            No products available. Add a new product above.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

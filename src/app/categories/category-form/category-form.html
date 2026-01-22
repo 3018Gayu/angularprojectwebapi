@@ -1,0 +1,45 @@
+<!-- Category Form -->
+<div class="card shadow-sm border-0 mt-4">
+  <div class="card-header bg-primary text-white">
+    <h5 class="mb-0">
+      {{ model.categoryId ? '✏️ Edit Category' : ' Add New Category' }}
+    </h5>
+  </div>
+  <div class="card-body">
+    <form (ngSubmit)="save()" class="row g-3">
+      
+      <!-- Category Name -->
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Category Name</label>
+        <input
+          type="text"
+          class="form-control form-control-lg"
+          placeholder="Enter category name"
+          [(ngModel)]="model.categoryName"
+          name="categoryName"
+          required>
+      </div>
+
+      <!-- Description -->
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Description</label>
+        <input
+          type="text"
+          class="form-control form-control-lg"
+          placeholder="Enter description"
+          [(ngModel)]="model.description"
+          name="description">
+      </div>
+
+      <!-- Save / Update Button -->
+      <div class="col-12 text-end mt-2">
+        <button
+          type="submit"
+          class="btn btn-success btn-lg shadow-sm">
+          {{ model.categoryId ? 'Update Category' : 'Save Category' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

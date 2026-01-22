@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="d-flex justify-content-between mb-3">
+    <h2>Customers</h2>
+    <a routerLink="/customers/new" class="btn btn-success">
+      + Add Customer
+    </a>
+  </div>
+
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Address</th>
+        <th>Loyalty</th>
+        <th width="180">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let c of customers">
+        <td>{{ c.name }}</td>
+        <td>{{ c.email }}</td>
+        <td>{{ c.phone }}</td>
+        <td>{{ c.address }}</td>
+        <td>{{ c.loyaltyPoints }}</td>
+        <td>
+          <a
+            class="btn btn-sm btn-primary me-2"
+            [routerLink]="['/customers/edit', c.customerId]"
+          >
+            Edit
+          </a>
+
+          <button
+            class="btn btn-sm btn-danger"
+            (click)="deleteCustomer(c.customerId)"
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

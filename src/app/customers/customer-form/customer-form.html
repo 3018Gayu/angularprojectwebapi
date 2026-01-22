@@ -1,0 +1,35 @@
+<div class="container">
+  <h2>{{ customerId ? 'Edit Customer' : 'Add Customer' }}</h2>
+
+  <form [formGroup]="form" (ngSubmit)="save()">
+
+    <div class="mb-3">
+      <label class="form-label">Name</label>
+      <input class="form-control" formControlName="name">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      <input class="form-control" formControlName="email">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Phone</label>
+      <input class="form-control" formControlName="phone">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Address</label>
+      <input class="form-control" formControlName="address">
+    </div>
+
+    <div class="mb-3" *ngIf="customerId">
+      <label class="form-label">Loyalty Points</label>
+      <input type="number" class="form-control" formControlName="loyaltyPoints">
+    </div>
+
+    <button class="btn btn-primary me-2" type="submit">Save</button>
+    <a routerLink="/customers" class="btn btn-secondary">Cancel</a>
+
+  </form>
+</div>
