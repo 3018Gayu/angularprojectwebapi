@@ -1,0 +1,69 @@
+<div class="order-form-container">
+  <h2>{{ isEditMode ? 'Edit Order' : 'Create Order' }}</h2>
+
+  <!-- Back Button -->
+  <button class="back-btn" type="button" (click)="goBack()">← Back</button>
+
+  <!-- Success/Error Messages -->
+  <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+  <div *ngIf="success" class="alert alert-success">{{ success }}</div>
+
+  <form [formGroup]="orderForm" (ngSubmit)="submit()" class="order-form">
+    <div class="form-row">
+      <label>Invoice No:</label>
+      <input formControlName="invoiceNo" [disabled]="isEditMode" placeholder="Enter invoice number" />
+    </div>
+
+    <div class="form-row">
+      <label>Customer:</label>
+      <select formControlName="customerId">
+        <option value="">Select customer</option>
+        <option *ngFor="let c of customers" [value]="c.customerId">{{ c.name }}</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label>Order Date:</label>
+      <input type="date" formControlName="orderDate" />
+    </div>
+
+    <h3>Products</h3>
+    <div formArrayName="orderDetails" class="order-details">
+      <div *ngFor="let detail of orderDetails.controls; let i = index" [formGroupName]="i" class="product-row">
+        <select formControlName="productId" (change)="calculateTotals()">
+          <option value="">Select product</option>
+          <option *ngFor="let p of products" [value]="p.productId">{{ p.name }}</option>
+        </select>
+
+        <input type="number" formControlName="quantity" min="1" (input)="calculateTotals()" />
+        <input type="number" formControlName="unitPrice" placeholder="Unit Price" readonly />
+        <input type="number" formControlName="totalPrice" placeholder="Total Price" readonly />
+
+        <button type="button" class="remove-btn" (click)="removeOrderDetail(i)">Remove</button>
+      </div>
+    </div>
+
+    <button type="button" class="add-btn" (click)="addOrderDetail()">+ Add Product</button>
+
+    <div class="totals">
+      <div>
+        <label>Total Amount:</label>
+        <span>{{ orderForm.get('totalAmount')!.value | currency }}</span>
+      </div>
+      <div>
+        <label>Tax Amount:</label>
+        <span>{{ orderForm.get('taxAmount')!.value | currency }}</span>
+      </div>
+      <div>
+        <label>Discount:</label>
+        <input type="number" formControlName="discount" (input)="calculateTotals()" />
+      </div>
+      <div>
+        <label>Net Amount:</label>
+        <span>{{ orderForm.get('netAmount')!.value | currency }}</span>
+      </div>
+    </div>
+
+    <button type="submit" class="submit-btn">{{ isEditMode ? 'Update Order' : 'Create Order' }}</button>
+  </form>
+</div>

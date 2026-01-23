@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common'; // Needed for *ngIf, *ngFor
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   template: `
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
       <div class="container">
@@ -18,6 +19,9 @@ import { RouterModule } from '@angular/router';
           </li>
           <li class="nav-item">
             <a class="nav-link" routerLink="/customers">Customers</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/orders">Orders</a>
           </li>
         </ul>
       </div>

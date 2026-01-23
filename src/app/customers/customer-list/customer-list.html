@@ -1,9 +1,9 @@
 <div class="container">
   <div class="d-flex justify-content-between mb-3">
     <h2>Customers</h2>
-    <a routerLink="/customers/new" class="btn btn-success">
+    <button class="btn btn-success" (click)="addCustomer()">
       + Add Customer
-    </a>
+    </button>
   </div>
 
   <table class="table table-bordered table-striped">
@@ -26,17 +26,10 @@
         <td>{{ c.address }}</td>
         <td>{{ c.loyaltyPoints }}</td>
         <td>
-          <a
-            class="btn btn-sm btn-primary me-2"
-            [routerLink]="['/customers/edit', c.customerId]"
-          >
+          <button class="btn btn-sm btn-primary me-2" (click)="editCustomer(c.customerId)">
             Edit
-          </a>
-
-          <button
-            class="btn btn-sm btn-danger"
-            (click)="deleteCustomer(c.customerId)"
-          >
+          </button>
+          <button class="btn btn-sm btn-danger" (click)="deleteCustomer(c.customerId)">
             Delete
           </button>
         </td>

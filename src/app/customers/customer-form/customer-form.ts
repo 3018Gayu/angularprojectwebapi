@@ -1,23 +1,28 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CustomerService } from '../customerservice';
 import { CreateCustomer } from '../create-customer';
 import { UpdateCustomer } from '../update-customer';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-customer-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],  // ✅ Add CommonModule & ReactiveFormsModule
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './customer-form.html',
   styleUrls: ['./customer-form.css']
 })
 export class CustomerFormComponent implements OnInit {
-  @Input() customerId?: number;
-
+  customerId?: number;
   form!: FormGroup;
 
-  constructor(private fb: FormBuilder, private service: CustomerService) {}
+  constructor(
+    private fb: FormBuilder,
+    private service: CustomerService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -28,28 +33,40 @@ export class CustomerFormComponent implements OnInit {
       loyaltyPoints: [0]
     });
 
-    if (this.customerId) {
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
+      this.customerId = +idParam;
       this.loadCustomer(this.customerId);
     }
   }
 
   loadCustomer(id: number) {
-    // We'll fix the service method issue below
+    this.service.getCustomer(id).subscribe(c => {
+      this.form.patchValue({
+        name: c.name,
+        email: c.email,
+        phone: c.phone,
+        address: c.address,
+        loyaltyPoints: c.loyaltyPoints
+      });
+    });
   }
 
-  save() {  // ✅ Previously it was `onSubmit()`, template expects `save()`
-    const { name = '', email = '', phone = '', address = '', loyaltyPoints = 0 } = this.form.value;
+  save() {
+    const { name, email, phone, address, loyaltyPoints } = this.form.value;
 
     if (this.customerId) {
       const updateDto: UpdateCustomer = { name, email, phone, address, loyaltyPoints };
-      this.service.updateCustomer(this.customerId, updateDto).subscribe(() => {
-        console.log('Customer updated');
-      });
+      this.service.updateCustomer(this.customerId, updateDto)
+        .subscribe(() => this.router.navigate(['/customers']));
     } else {
       const createDto: CreateCustomer = { name, email, phone, address };
-      this.service.createCustomer(createDto).subscribe(() => {
-        console.log('Customer created');
-      });
+      this.service.createCustomer(createDto)
+        .subscribe(() => this.router.navigate(['/customers']));
     }
+  }
+
+  cancel() {
+    this.router.navigate(['/customers']);
   }
 }

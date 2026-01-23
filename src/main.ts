@@ -8,6 +8,6 @@ import { AppComponent } from './app/app';
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),
-    importProvidersFrom(HttpClientModule)  // Needed for HTTP services
+    importProvidersFrom(HttpClientModule) // Needed for HTTP services
   ]
 }).catch(err => console.error(err));

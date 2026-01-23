@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { CustomerService } from '../customerservice';
 import { Customer } from '../customer';
 
@@ -15,7 +15,7 @@ export class CustomerListComponent implements OnInit {
 
   customers: Customer[] = [];
 
-  constructor(private customerService: CustomerService) {}
+  constructor(private customerService: CustomerService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadCustomers();
@@ -31,5 +31,15 @@ export class CustomerListComponent implements OnInit {
       this.customerService.deleteCustomer(id)
         .subscribe(() => this.loadCustomers());
     }
+  }
+
+  // Navigate to add form
+  addCustomer(): void {
+    this.router.navigate(['/customers/new']);
+  }
+
+  // Navigate to edit form
+  editCustomer(id: number): void {
+    this.router.navigate(['/customers/edit', id]);
   }
 }

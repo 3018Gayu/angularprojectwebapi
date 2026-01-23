@@ -1,0 +1,26 @@
+<div *ngIf="error" class="error">{{ error }}</div>
+
+<h3>Order Details for Order #{{ orderId }}</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Unit Price</th>
+      <th>Total Price</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let detail of orderDetails">
+      <td>{{ detail.productName }}</td>
+      <td>{{ detail.quantity }}</td>
+      <td>{{ detail.unitPrice | currency }}</td>
+      <td>{{ detail.totalPrice | currency }}</td>
+      <td>
+        <button (click)="deleteDetail(detail.orderDetailId!)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

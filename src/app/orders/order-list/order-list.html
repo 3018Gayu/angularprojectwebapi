@@ -1,0 +1,43 @@
+<div class="order-list-container">
+
+  <h2>Orders</h2>
+
+  <!-- Error / Loading Messages -->
+  <div *ngIf="loading" class="alert alert-info">Loading orders...</div>
+  <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+
+  <!-- Create New Order Button -->
+  <div class="top-actions">
+    <a routerLink="/orders/new" class="btn btn-success">+ Create New Order</a>
+  </div>
+
+  <!-- Orders Table -->
+  <table *ngIf="orders.length > 0" class="orders-table">
+    <thead>
+      <tr>
+        <th>Invoice No</th>
+        <th>Customer</th>
+        <th>Order Date</th>
+        <th>Total Amount</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders">
+        <td>{{ order.invoiceNo }}</td>
+        <td>{{ order.customerName }}</td>
+        <td>{{ order.orderDate | date:'shortDate' }}</td>
+        <td>{{ order.totalAmount | currency }}</td>
+        <td>
+          <button class="btn btn-primary" routerLink="/orders/edit/{{order.orderId}}">Edit</button>
+          <button class="btn btn-danger" (click)="deleteOrder(order.orderId)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="orders.length === 0 && !loading" class="no-orders">
+    No orders available. Click "Create New Order" to add one.
+  </div>
+
+</div>
