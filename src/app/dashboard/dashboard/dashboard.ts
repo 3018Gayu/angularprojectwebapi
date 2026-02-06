@@ -26,6 +26,9 @@ export class DashboardComponent implements OnInit {
   dashboard: Dashboard = new Dashboard();
   loading = true;
 
+  // 🔴 EXPIRED PRODUCTS
+  expiredProducts: Product[] = [];
+
   // ===================== LINE CHART SETTINGS =====================
   chartType: ChartType = 'line';
 
@@ -34,20 +37,15 @@ export class DashboardComponent implements OnInit {
     maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
-      title: {
-        display: true,
-        text: 'Sales Last 7 Days'
-      }
+      title: { display: true, text: 'Sales Last 7 Days' }
     },
     elements: {
-      line: { tension: 0.4 }, // smooth curve
-      point: { radius: 5 }    // show markers
+      line: { tension: 0.4 },
+      point: { radius: 5 }
     },
     scales: {
       x: {},
-      y: {
-        beginAtZero: true
-      }
+      y: { beginAtZero: true }
     }
   };
 
@@ -59,8 +57,7 @@ export class DashboardComponent implements OnInit {
         label: 'Sales',
         borderColor: '#0d6efd',
         backgroundColor: 'rgba(13,110,253,0.2)',
-        fill: true,
-        tension: 0.4
+        fill: true
       }
     ]
   };
@@ -75,22 +72,22 @@ export class DashboardComponent implements OnInit {
       next: (res) => {
         this.dashboard = res;
 
-        // ===== CHART DATA =====
+        // ===== CHART =====
         this.last7DaysChartData.labels = res.last7DaysLabels || [];
         this.last7DaysChartData.datasets[0].data = res.last7DaysSales || [];
 
-        // ===== INVENTORY FIX =====
-        if (this.auth.isInventory()) {
-          this.dashboard.productsCount =
-            res.productsCount && res.productsCount > 0
-              ? res.productsCount
-              : (res.recentProducts?.length || 0);
+        // ===== EXPIRED PRODUCTS LOGIC =====
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
 
-          this.dashboard.lowStockCount =
-            res.lowStockCount && res.lowStockCount > 0
-              ? res.lowStockCount
-              : (res.lowStockProducts?.length || 0);
-        }
+        const allProducts: Product[] = [
+          ...(res.recentProducts || []),
+          ...(res.lowStockProducts || [])
+        ];
+
+        this.expiredProducts = allProducts.filter(p =>
+          p.expiryDate && new Date(p.expiryDate) < today
+        );
 
         this.loading = false;
       },

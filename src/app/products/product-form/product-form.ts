@@ -20,7 +20,6 @@ export class ProductFormComponent implements OnInit, OnChanges {
 
   model: Product = this.empty();
   categories: Category[] = [];
-  loadingCategories = true;
 
   constructor(
     private productService: ProductService,
@@ -28,16 +27,8 @@ export class ProductFormComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    // Load categories
-    this.categoryService.getAll().subscribe({
-      next: (data: Category[]) => {
-        this.categories = data;
-        this.loadingCategories = false;
-      },
-      error: (err: any) => {
-        console.error('Failed to load categories', err);
-        this.loadingCategories = false;
-      }
+    this.categoryService.getAll().subscribe(data => {
+      this.categories = data;
     });
   }
 
@@ -56,7 +47,6 @@ export class ProductFormComponent implements OnInit, OnChanges {
   }
 
   save(): void {
-    // Use Observable<any> to unify create/update return types
     const obs: Observable<any> = this.model.productId
       ? this.productService.update(this.model.productId!, this.model)
       : this.productService.create(this.model);
@@ -64,14 +54,12 @@ export class ProductFormComponent implements OnInit, OnChanges {
     obs.subscribe({
       next: () => {
         alert('Product saved successfully');
-        this.model = this.empty();
         this.saved.emit();
+        this.model = this.empty();
       },
       error: (err: any) => {
         console.error(err);
-        if (err.status === 400) alert(err.error?.message || 'Invalid data');
-        else if (err.status === 403) alert('Permission denied');
-        else alert('Error saving product');
+        alert(err.error?.message || 'Error saving product');
       }
     });
   }
@@ -81,7 +69,7 @@ export class ProductFormComponent implements OnInit, OnChanges {
       name: '',
       categoryId: undefined,
       unitPrice: 0,
-      stockQty: 0,
+      stockQty: 0, // 🔒 Stock is controlled by inventory transactions
       expiryDate: '',
       isActive: true
     };

@@ -1,12 +1,9 @@
 <!-- Fullscreen container with background image -->
 <div class="fullscreen-container" style="background-image: url('https://spherewms.com/wp-content/uploads/2024/01/SPH-Whse-Inv-Mgmt-Blog-shutterstock_1930996376-1.webp'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; min-height: 100vh; position: relative;">
-  <!-- Semi-transparent overlay for better readability -->
   <div class="overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(183, 189, 247, 0.3);"></div>
   
-  <!-- Content on top -->
   <div class="content d-flex align-items-center justify-content-center" style="position: relative; z-index: 2; min-height: 100vh; padding: 20px;">
     <div class="card shadow-lg" style="background-color: rgba(255, 248, 222, 0.95); border: none; border-radius: 15px; max-width: 600px; width: 100%;">
-      <!-- Header Section -->
       <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #576A8F; color: white; border-radius: 10px 10px 0 0;">
         <button class="btn btn-sm" style="background-color: #B7BDF7; color: #576A8F; border-radius: 8px; font-weight: 600;" (click)="goBack()">
           <i class="fas fa-arrow-left"></i> Back
@@ -14,13 +11,11 @@
         <h4 style="font-weight: 600; margin: 0;">
           <i class="fas fa-exchange-alt"></i> {{ isCreateMode ? 'Add Inventory Transaction' : 'Update Inventory Transaction' }}
         </h4>
-        <div></div> <!-- Spacer for centering -->
+        <div></div>
       </div>
-      
-      <!-- Form Section -->
+
       <div class="card-body">
         <form (ngSubmit)="save()" #transactionForm="ngForm">
-          <!-- Product selection (works for both create and update) -->
           <div class="mb-3" *ngIf="products.length">
             <label class="form-label" style="color: #576A8F; font-weight: 600;">Product</label>
             <select 
@@ -29,34 +24,21 @@
               class="form-select" 
               style="border-color: #B7BDF7; border-radius: 8px;" 
               required>
-              <option [ngValue]="" disabled>-- Select Product --</option>
+              <option [ngValue]="0" disabled>-- Select Product --</option>
               <option *ngFor="let p of products" [ngValue]="p.productId">
-                {{ p.name }}
+                {{ p.name }} (Stock: {{ p.stockQty }})
               </option>
             </select>
           </div>
 
           <div class="mb-3">
             <label class="form-label" style="color: #576A8F; font-weight: 600;">Quantity</label>
-            <input 
-              type="number" 
-              class="form-control" 
-              [(ngModel)]="transactionModel.quantity" 
-              name="quantity" 
-              style="border-color: #B7BDF7; border-radius: 8px;" 
-              placeholder="Enter Quantity" 
-              required 
-              min="1">
+            <input type="number" class="form-control" [(ngModel)]="transactionModel.quantity" name="quantity" style="border-color: #B7BDF7; border-radius: 8px;" min="1" required>
           </div>
 
           <div class="mb-3">
             <label class="form-label" style="color: #576A8F; font-weight: 600;">Type</label>
-            <select 
-              [(ngModel)]="transactionModel.type" 
-              name="type" 
-              class="form-select" 
-              style="border-color: #B7BDF7; border-radius: 8px;" 
-              required>
+            <select [(ngModel)]="transactionModel.type" name="type" class="form-select" style="border-color: #B7BDF7; border-radius: 8px;" (change)="onTypeChange()" required>
               <option value="IN">IN</option>
               <option value="OUT">OUT</option>
               <option value="DAMAGED">DAMAGED</option>
@@ -65,16 +47,10 @@
 
           <div class="mb-3">
             <label class="form-label" style="color: #576A8F; font-weight: 600;">Remarks</label>
-            <textarea 
-              class="form-control" 
-              [(ngModel)]="transactionModel.remarks" 
-              name="remarks" 
-              style="border-color: #B7BDF7; border-radius: 8px;" 
-              placeholder="Enter Remarks (optional)">
-            </textarea>
+            <textarea class="form-control" [(ngModel)]="transactionModel.remarks" name="remarks" style="border-color: #B7BDF7; border-radius: 8px;" placeholder="Enter Remarks (optional)"></textarea>
           </div>
 
-          <button type="submit" class="btn" style="background-color: #FF7444; color: white; border-radius: 8px; font-weight: 600; transition: all 0.3s ease;" [disabled]="!transactionForm.valid">
+          <button type="submit" class="btn" style="background-color: #FF7444; color: white; border-radius: 8px; font-weight: 600;">
             <i class="fas fa-save"></i> {{ isCreateMode ? 'Create' : 'Update' }}
           </button>
         </form>
