@@ -11,7 +11,7 @@ import { AuthService } from './services/auth';
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container-fluid">
-        <a class="navbar-brand" routerLink="/">Saksupermarket</a>
+        <a class="navbar-brand" routerLink="/">Saksoftsupermarket</a>
 
         <ul class="navbar-nav me-auto">
 
