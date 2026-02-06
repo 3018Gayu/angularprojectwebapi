@@ -1,42 +1,67 @@
-<div class="container mt-4">
+<!-- Fullscreen container with background image -->
+<div class="fullscreen-container" style="background-image: url('https://c8.alamy.com/comp/2R89803/food-grocery-store-shopping-vector-illustration-with-foods-items-and-products-assortiment-on-the-supermarket-in-flat-cartoon-hand-drawn-templates-2R89803.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; min-height: 100vh; position: relative;">
 
-  <app-product-form [product]="selected" (saved)="load()"></app-product-form>
+  <div class="overlay" style="position: absolute; top:0; left:0; width:100%; height:100%; background-color: rgba(183,189,247,0.3);"></div>
 
-  <div class="table-responsive shadow">
-    <table class="table table-hover align-middle mb-0">
-      <thead class="bg-primary text-white">
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Category</th>
-          <th>Price</th>
-          <th>Stock</th>
-          <th>Expiry</th>
-          <th>Status</th>
-          <th class="text-center">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let p of products">
-          <td>{{ p.productId }}</td>
-          <td>{{ p.name }}</td>
-          <td>{{ p.categoryName || '-' }}</td>
-          <td>{{ p.unitPrice | currency }}</td>
-          <td>{{ p.stockQty }}</td>
-          <td>{{ p.expiryDate | date:'yyyy-MM-dd' }}</td>
-          <td>{{ p.isActive ? 'Active' : 'Inactive' }}</td>
-          <td class="text-center">
-            <button class="btn btn-warning btn-sm me-2" (click)="edit(p)">✏️ Edit</button>
-            <button class="btn btn-danger btn-sm" (click)="delete(p.productId!)">🗑 Delete</button>
-          </td>
-        </tr>
+  <div class="content d-flex align-items-center justify-content-center" style="position: relative; z-index:2; min-height:100vh; padding:20px;">
+    <div class="card shadow-lg" style="background-color: rgba(255,248,222,0.95); border-radius:15px; max-width:1200px; width:100%;">
+      
+      <div class="card-header" style="background-color: #576A8F; color: white; border-radius:10px 10px 0 0;">
+        <h2><i class="fas fa-boxes"></i> Product Management</h2>
+      </div>
+      
+      <div class="card-body">
 
-        <tr *ngIf="!products.length">
-          <td colspan="8" class="text-center text-muted py-3">
-            No products available. Add a new product above.
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        <!-- Product Form -->
+        <div class="card mb-4 shadow" style="background-color:#B7BDF7; border-color:#576A8F; border-radius:10px;">
+          <div class="card-header" style="background-color:#576A8F; color:white; border-radius:10px 10px 0 0;">
+            <h5 class="mb-0">{{ selected?.productId ? 'Edit Product' : 'Add New Product' }}</h5>
+          </div>
+          <div class="card-body">
+            <app-product-form [product]="selected" (saved)="loadProducts()"></app-product-form>
+          </div>
+        </div>
+
+        <!-- Products Table -->
+        <div class="table-responsive shadow">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="bg-primary text-white">
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Expiry</th>
+                <th>Status</th>
+                <th class="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let p of products">
+                <td>{{ p.productId || '-' }}</td>
+                <td>{{ p.name || '-' }}</td>
+                <td>{{ p.category?.categoryName || '-' }}</td>
+                <td>{{ p.unitPrice | currency:'INR' }}</td>
+                <td>{{ p.stockQty }}</td>
+                <td>{{ p.expiryDate ? (p.expiryDate | date:'yyyy-MM-dd') : '-' }}</td>
+                <td>{{ p.isActive ? 'Active' : 'Inactive' }}</td>
+                <td class="text-center">
+                  <button class="btn btn-warning btn-sm me-2" (click)="edit(p)" [disabled]="!p.productId">✏️ Edit</button>
+                  <button class="btn btn-danger btn-sm" (click)="delete(p.productId!)" [disabled]="!p.productId">🗑 Delete</button>
+                </td>
+              </tr>
+
+              <tr *ngIf="!products || products.length === 0">
+                <td colspan="8" class="text-center text-muted py-3">
+                  No products available. Add a new product above.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
   </div>
 </div>

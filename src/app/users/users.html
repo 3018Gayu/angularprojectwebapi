@@ -1,0 +1,87 @@
+<div class="fullscreen-container">
+  <!-- Background Image & Overlay -->
+  <div class="background-overlay"></div>
+
+  <!-- Content Wrapper -->
+  <div class="content">
+
+    <!-- ADD / EDIT USER CARD -->
+    <div class="card form-card">
+      <div class="card-header">
+        {{ isEdit ? 'Edit User' : 'Add New User' }}
+      </div>
+      <div class="card-body">
+        <form class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label">Name</label>
+            <input class="form-control" placeholder="Name" [(ngModel)]="selectedUser.name" name="name" />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Email</label>
+            <input class="form-control" placeholder="Email" [(ngModel)]="selectedUser.email" name="email" />
+          </div>
+          <div class="col-md-4" *ngIf="!isEdit">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control" placeholder="Password" [(ngModel)]="selectedUser.passwordHash" name="password" />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Role</label>
+            <select class="form-select" [(ngModel)]="selectedUser.role" name="role">
+              <option value="Admin">Admin</option>
+              <option value="Cashier">Cashier</option>
+              <option value="InventoryManager">Inventory Manager</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Status</label>
+            <select class="form-select" [(ngModel)]="selectedUser.isActive" name="isActive">
+              <option [ngValue]="true">Active</option>
+              <option [ngValue]="false">Inactive</option>
+            </select>
+          </div>
+          <div class="col-md-6 d-flex align-items-end">
+            <button type="button" class="btn btn-success me-2 w-50" (click)="isEdit ? updateUser() : addUser()">
+              {{ isEdit ? 'Update' : 'Create' }}
+            </button>
+            <button type="button" class="btn btn-secondary w-50" (click)="cancel()">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- USER LIST CARD -->
+    <div class="card list-card">
+      <div class="card-header">User List</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Active</th>
+                <th width="150">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let u of users">
+                <td>{{ u.name }}</td>
+                <td>{{ u.email }}</td>
+                <td>{{ u.role }}</td>
+                <td [ngClass]="u.isActive ? 'active' : 'inactive'">{{ u.isActive ? 'Yes' : 'No' }}</td>
+                <td>
+                  <button class="btn btn-primary btn-sm me-1" (click)="editUser(u)">Edit</button>
+                  <button class="btn btn-danger btn-sm" (click)="deleteUser(u.userId)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

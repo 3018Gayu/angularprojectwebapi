@@ -1,0 +1,126 @@
+/* Enhanced dashboard styles with theme colors */
+.transition-all {
+  transition: all 0.3s ease-in-out;
+}
+
+.transaction-row:hover {
+  background-color: rgba(183, 189, 247, 0.1) !important; /* Accent color */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(87, 106, 143, 0.15); /* Primary shadow */
+}
+
+.product-row:hover {
+  background-color: rgba(183, 189, 247, 0.05) !important; /* Light accent */
+  transform: translateY(-1px);
+}
+
+.product-image {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.stock-badge {
+  min-width: 36px;
+  padding: 0.375rem 0.75rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  background: linear-gradient(135deg, #576A8F, #B7BDF7); /* Primary to accent gradient */
+  color: white;
+}
+
+.table-dark thead th {
+  border: none !important;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #576A8F, #6B82A8); /* Darker primary gradient */
+}
+
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #576A8F 0%, #B7BDF7 100%); /* Primary to accent */
+}
+
+.bg-gradient-info {
+  background: linear-gradient(135deg, #B7BDF7 0%, #00b4d8 100%); /* Accent to info */
+}
+
+.bg-gradient-danger {
+  background: linear-gradient(135deg, #FF7444 0%, #ff6b35 100%); /* Danger gradient */
+}
+
+.bg-gradient-dark {
+  background: linear-gradient(135deg, #576A8F 0%, #2c3e50 100%); /* Primary to dark */
+}
+
+.bg-light-accent {
+  background-color: #FFF8DE !important; /* Light background */
+}
+
+.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.stock-card {
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  border: none;
+}
+
+.stock-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(87, 106, 143, 0.2); /* Primary shadow */
+}
+
+.alert-icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #FF7444, #ff6b35); /* Danger gradient */
+}
+
+.fs-2x {
+  font-size: 2rem !important;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+}
+
+.text-primary {
+  color: #576A8F !important; /* Primary */
+}
+
+.text-accent {
+  color: #B7BDF7 !important; /* Accent */
+}
+
+.text-danger {
+  color: #FF7444 !important; /* Danger */
+}
+
+.bg-accent {
+  background-color: #B7BDF7 !important; /* Accent background */
+}
+
+/* Chart container */
+.chart-container {
+  position: relative;
+  height: 400px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .fs-2x {
+    font-size: 1.5rem !important;
+  }
+  .stock-card {
+    margin-bottom: 1rem;
+  }
+}

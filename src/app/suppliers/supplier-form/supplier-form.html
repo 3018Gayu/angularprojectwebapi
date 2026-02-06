@@ -1,0 +1,59 @@
+<div class="container mt-5">
+  <div class="card shadow-lg border-0 rounded">
+    
+    <!-- Card Header -->
+    <div 
+      class="card-header d-flex align-items-center"
+      [ngClass]="isEdit ? 'bg-warning text-dark' : 'bg-primary text-white'"
+    >
+      <h5 class="mb-0 flex-grow-1">
+        <i class="bi" [ngClass]="isEdit ? 'bi-pencil-square' : 'bi-plus-lg'"></i>
+        {{ isEdit ? 'Edit Supplier' : 'Add Supplier' }}
+      </h5>
+    </div>
+
+    <!-- Card Body -->
+    <div class="card-body">
+      <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()">
+
+        <div class="mb-4">
+          <label class="form-label fw-semibold">Supplier Name</label>
+          <input type="text" class="form-control form-control-lg shadow-sm"
+                 formControlName="name" placeholder="Enter supplier name">
+          <div *ngIf="supplierForm.get('name')?.touched && supplierForm.get('name')?.invalid" class="text-danger mt-1">
+            Name is required
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label fw-semibold">Contact</label>
+          <input type="text" class="form-control form-control-lg shadow-sm"
+                 formControlName="contact" placeholder="Enter contact">
+          <div *ngIf="supplierForm.get('contact')?.touched && supplierForm.get('contact')?.invalid" class="text-danger mt-1">
+            Contact is required
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label fw-semibold">Address</label>
+          <textarea class="form-control form-control-lg shadow-sm"
+                    formControlName="address" rows="3" placeholder="Enter address"></textarea>
+          <div *ngIf="supplierForm.get('address')?.touched && supplierForm.get('address')?.invalid" class="text-danger mt-1">
+            Address is required
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <button type="button" class="btn btn-outline-secondary me-3 shadow-sm" (click)="onCancel()">
+            <i class="bi bi-x-lg"></i> Cancel
+          </button>
+          <button type="submit" class="btn btn-primary shadow-sm" [disabled]="supplierForm.invalid">
+            <i class="bi" [ngClass]="isEdit ? 'bi-pencil-square' : 'bi-plus-lg'"></i>
+            {{ isEdit ? 'Update' : 'Add' }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,38 +1,35 @@
-<form (ngSubmit)="save()" class="card card-body mb-4 shadow-sm">
-  <h5 class="mb-3 text-primary fw-bold">
-    {{ model.productId ? '✏️ Edit Product' : '➕ Add Product' }}
-  </h5>
-
-  <div class="mb-2">
-    <input type="text" class="form-control" placeholder="Product Name" [(ngModel)]="model.name" name="name" required>
+<form (ngSubmit)="save()" #productForm="ngForm">
+  <div class="mb-3">
+    <label class="form-label">Name</label>
+    <input type="text" class="form-control" [(ngModel)]="model.name" name="name" required>
   </div>
 
-  <div class="mb-2">
+  <div class="mb-3">
+    <label class="form-label">Category</label>
     <select class="form-select" [(ngModel)]="model.categoryId" name="categoryId" required>
-      <option value="">Select Category</option>
       <option *ngFor="let c of categories" [value]="c.categoryId">{{ c.categoryName }}</option>
     </select>
   </div>
 
-  <div class="mb-2 row">
-    <div class="col">
-      <input type="number" class="form-control" placeholder="Unit Price" [(ngModel)]="model.unitPrice" name="unitPrice">
-    </div>
-    <div class="col">
-      <input type="number" class="form-control" placeholder="Stock Qty" [(ngModel)]="model.stockQty" name="stockQty">
-    </div>
+  <div class="mb-3">
+    <label class="form-label">Price</label>
+    <input type="number" class="form-control" [(ngModel)]="model.unitPrice" name="unitPrice" required>
   </div>
 
-  <div class="mb-2">
+  <div class="mb-3">
+    <label class="form-label">Stock Qty</label>
+    <input type="number" class="form-control" [(ngModel)]="model.stockQty" name="stockQty" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Expiry Date</label>
     <input type="date" class="form-control" [(ngModel)]="model.expiryDate" name="expiryDate">
   </div>
 
-  <div class="form-check mb-3">
-    <input class="form-check-input" type="checkbox" [(ngModel)]="model.isActive" name="isActive">
+  <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" [(ngModel)]="model.isActive" name="isActive">
     <label class="form-check-label">Active</label>
   </div>
 
-  <button type="submit" class="btn btn-success w-100">
-    {{ model.productId ? 'Update Product' : 'Save Product' }}
-  </button>
+  <button type="submit" class="btn btn-primary">{{ model.productId ? 'Update' : 'Create' }}</button>
 </form>

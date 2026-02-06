@@ -5,9 +5,7 @@ import { Customer } from './customer';
 import { CreateCustomer } from './create-customer';
 import { UpdateCustomer } from './update-customer';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class CustomerService {
   private apiUrl = 'https://localhost:7234/api/Customers';
 

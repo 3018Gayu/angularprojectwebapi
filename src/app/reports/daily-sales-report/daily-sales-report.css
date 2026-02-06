@@ -1,0 +1,112 @@
+/* Fullscreen background container */
+.fullscreen-container {
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  position: relative;
+}
+
+/* Overlay with flowing background color */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(183, 189, 247, 0.3); /* #B7BDF7 overlay */
+  z-index: 1;
+}
+
+/* Content above overlay */
+.content {
+  position: relative;
+  z-index: 2;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+/* Card style */
+.report-card {
+  background-color: rgba(255, 248, 222, 0.95);
+  border: none;
+  border-radius: 15px;
+  max-width: 900px;
+  width: 100%;
+}
+
+/* Card header */
+.report-card .card-header {
+  background-color: #576A8F;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 15px 15px 0 0;
+}
+
+/* Buttons */
+.download-btn {
+  background-color: #FF7444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.load-btn {
+  background-color: #FF7444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+/* Table */
+.table {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.table th {
+  background-color: #576A8F;
+  color: white;
+  font-weight: 600;
+  border: none;
+}
+
+.table td {
+  border-color: #B7BDF7;
+  vertical-align: middle;
+}
+
+.amount {
+  font-weight: 600;
+  color: #FF7444;
+}
+
+/* Alert */
+.no-sales {
+  background-color: rgba(255, 248, 222, 0.9);
+  border-color: #B7BDF7;
+  color: #576A8F;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+/* Labels */
+.form-label {
+  font-weight: 600;
+  color: #576A8F;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+  .content {
+    padding: 10px;
+  }
+  .report-card {
+    max-width: 100%;
+  }
+}

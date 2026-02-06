@@ -1,0 +1,113 @@
+/* Fullscreen container with background image and flowing color */
+.fullscreen-container {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #B7BDF7;
+  background-image: url('https://img.freepik.com/premium-vector/woman-sitting-table-with-laptop-working-computer-freelance-online-education-studying-social-media-concept-vector-illustration-flat_186332-1100.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: scroll;
+  overflow-y: auto;
+  position: relative;
+  padding: 20px 0;
+}
+
+/* Semi-transparent overlay for color flow */
+.background-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(183, 189, 247, 0.6);
+  z-index: 0;
+}
+
+/* Content wrapper above overlay */
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Cards */
+.card {
+  border-radius: 15px;
+  border: none;
+  background-color: rgba(255, 248, 222, 0.95);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.card-header {
+  background-color: #576A8F;
+  color: white;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 15px 15px 0 0;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+/* Table */
+.table th, .table td {
+  padding: 12px;
+  vertical-align: middle;
+}
+
+.table thead {
+  background-color: #576A8F;
+  color: white;
+}
+
+.table tbody tr {
+  background-color: rgba(255, 248, 222, 0.9);
+}
+
+/* Form & Buttons */
+.form-label {
+  font-weight: 600;
+  color: #576A8F;
+}
+
+.form-control, .form-select {
+  border-color: #B7BDF7;
+  border-radius: 8px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.active {
+  color: #FF7444;
+  font-weight: 600;
+}
+
+.inactive {
+  color: #576A8F;
+  font-weight: 600;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+  .content {
+    padding: 10px;
+  }
+  .row.g-3 .col-md-3, .row.g-3 .col-md-4, .row.g-3 .col-md-6 {
+    margin-bottom: 10px;
+  }
+}

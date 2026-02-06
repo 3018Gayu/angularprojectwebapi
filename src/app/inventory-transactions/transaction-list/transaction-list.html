@@ -1,0 +1,77 @@
+<!-- Fullscreen container with background image -->
+<div class="fullscreen-container" style="background-image: url('https://spherewms.com/wp-content/uploads/2024/01/SPH-Whse-Inv-Mgmt-Blog-shutterstock_1930996376-1.webp'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; min-height: 100vh; position: relative;">
+  <!-- Semi-transparent overlay for better readability -->
+  <div class="overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(183, 189, 247, 0.3);"></div>
+  
+  <!-- Content on top -->
+  <div class="content d-flex align-items-center justify-content-center" style="position: relative; z-index: 2; min-height: 100vh; padding: 20px;">
+    <div class="card shadow-lg" style="background-color: rgba(255, 248, 222, 0.95); border: none; border-radius: 15px; max-width: 1200px; width: 100%;">
+      <!-- Header Section -->
+      <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #576A8F; color: white; border-radius: 10px 10px 0 0;">
+        <h3 style="font-weight: 600; margin: 0;">
+          <i class="fas fa-list"></i> Inventory Transactions
+        </h3>
+        <a class="btn btn-sm" style="background-color: #FF7444; color: white; border-radius: 8px; font-weight: 600;" routerLink="/inventory-transactions/new">
+          <i class="fas fa-plus"></i> Add Transaction
+        </a>
+      </div>
+      
+      <!-- Body Section -->
+      <div class="card-body">
+        <!-- Loading Message -->
+        <div *ngIf="loading" class="alert" style="background-color: #B7BDF7; color: #576A8F; border-color: #FFF8DE; border-radius: 10px;">
+          <i class="fas fa-spinner fa-spin"></i> Loading transactions...
+        </div>
+
+        <!-- Error Message -->
+        <div *ngIf="error" class="alert" style="background-color: #FF7444; color: white; border-color: #576A8F; border-radius: 10px;">
+          <i class="fas fa-exclamation-triangle"></i> {{ error }}
+        </div>
+
+        <!-- Transactions Table -->
+        <div *ngIf="transactions.length > 0" class="table-responsive">
+          <table class="table table-hover align-middle" style="border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
+            <thead style="background-color: #576A8F; color: white;">
+              <tr>
+                <th><i class="fas fa-id-badge"></i> ID</th>
+                <th><i class="fas fa-box"></i> Product</th>
+                <th><i class="fas fa-hashtag"></i> Quantity</th>
+                <th><i class="fas fa-tags"></i> Type</th>
+                <th><i class="fas fa-comment"></i> Remarks</th>
+                <th><i class="fas fa-calendar-alt"></i> Date</th>
+                <th class="text-center"><i class="fas fa-cogs"></i> Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let t of transactions" style="background-color: #FFF8DE; transition: background-color 0.3s ease;">
+                <td style="font-weight: bold; color: #576A8F;">{{ t.transId }}</td>
+                <td>{{ t.productName }}</td>
+                <td>{{ t.quantity }}</td>
+                <td>
+                  <span [style.color]="t.type === 'IN' ? '#FF7444' : t.type === 'OUT' ? '#576A8F' : '#B7BDF7'" style="font-weight: bold;">
+                    {{ t.type }}
+                  </span>
+                </td>
+                <td>{{ t.remarks || '-' }}</td>
+                <td>{{ t.date | date:'short' }}</td>
+                <td class="text-center">
+                  <a class="btn btn-sm me-2" style="background-color: #B7BDF7; color: #576A8F; border-radius: 8px; font-weight: 600;" [routerLink]="'/inventory-transactions/edit/' + t.transId">
+                    <i class="fas fa-edit"></i> Edit
+                  </a>
+                  <button class="btn btn-sm" style="background-color: #FF7444; color: white; border-radius: 8px; font-weight: 600;" (click)="deleteTransaction(t.transId)">
+                    <i class="fas fa-trash"></i> Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- No Transactions Message -->
+        <div *ngIf="transactions.length === 0 && !loading" class="alert text-center" style="background-color: #FFF8DE; color: #576A8F; border-color: #B7BDF7; border-radius: 10px;">
+          <i class="fas fa-info-circle"></i> No transactions found.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

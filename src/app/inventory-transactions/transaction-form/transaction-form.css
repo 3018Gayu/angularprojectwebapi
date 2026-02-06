@@ -1,0 +1,64 @@
+/* Shared styles for the component */
+.fullscreen-container {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.overlay {
+  z-index: 1;
+}
+
+.content {
+  padding: 20px;
+}
+
+h4 {
+  font-weight: 600;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.form-label {
+  margin-bottom: 0.5rem;
+}
+
+.form-control, .form-select {
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #576A8F;
+  box-shadow: 0 0 0 0.2rem rgba(87, 106, 143, 0.25);
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+  .content {
+    padding: 10px;
+  }
+  .card {
+    max-width: 100% !important;
+  }
+  .btn {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
+
+/* Ensure Font Awesome icons are loaded (add to index.html if not already) */
+/* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> */

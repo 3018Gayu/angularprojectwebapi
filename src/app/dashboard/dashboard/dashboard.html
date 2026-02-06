@@ -1,0 +1,182 @@
+<div class="container mt-4" *ngIf="!loading">
+
+  <!-- ===================== CARDS ===================== -->
+  <div class="row g-3">
+
+    <!-- ADMIN -->
+    <ng-container *ngIf="auth.isAdmin()">
+      <div class="col-md-3" *ngIf="dashboard">
+        <div class="card bg-gradient-primary text-white shadow-sm stock-card">
+          <div class="card-body">
+            <h6 class="fw-bold">Total Sales</h6>
+            <h3 class="fs-2x">{{ dashboard.totalSales }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card bg-gradient-info text-white shadow-sm stock-card">
+          <div class="card-body">
+            <h6 class="fw-bold">Customers</h6>
+            <h3 class="fs-2x">{{ dashboard.customerCount }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card bg-gradient-danger text-white shadow-sm stock-card">
+          <div class="card-body">
+            <h6 class="fw-bold">Low Stock</h6>
+            <h3 class="fs-2x">{{ dashboard.lowStockCount }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card bg-gradient-dark text-white shadow-sm stock-card">
+          <div class="card-body">
+            <h6 class="fw-bold">Users</h6>
+            <h3 class="fs-2x">{{ dashboard.userCount }}</h3>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- CASHIER -->
+    <ng-container *ngIf="auth.isCashier()">
+      <div class="col-md-6">
+        <div class="card bg-gradient-primary text-white shadow-sm stock-card">
+          <div class="card-body">
+            <h6 class="fw-bold">Total Sales</h6>
+            <h3 class="fs-2x">{{ dashboard.totalSales }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card bg-gradient-info text-white shadow-sm stock-card">
+          <div class="card-body">
+            <h6 class="fw-bold">Customers</h6>
+            <h3 class="fs-2x">{{ dashboard.customerCount }}</h3>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- INVENTORY -->
+    <ng-container *ngIf="auth.isInventory()">
+      <div class="col-md-6">
+        <div class="card bg-gradient-primary text-white shadow-sm stock-card">
+          <div class="card-body">
+            <h6 class="fw-bold">Total Products</h6>
+            <h3 class="fs-2x">{{ dashboard.productsCount }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card bg-gradient-danger text-white shadow-sm stock-card">
+          <div class="card-body">
+            <h6 class="fw-bold">Low Stock Products</h6>
+            <h3 class="fs-2x">{{ dashboard.lowStockCount }}</h3>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- ===================== SALES CHART ===================== -->
+  <div *ngIf="auth.isAdmin() || auth.isCashier()" class="card mt-4 shadow-sm">
+    <div class="card-body bg-light-accent">
+      <h5 class="card-title text-primary fw-bold">Sales Overview (Last 7 Days)</h5>
+      <div class="chart-container" style="height:300px;">
+        <canvas baseChart
+        [data]="last7DaysChartData"
+        [options]="chartOptions"
+        type="line">
+</canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== RECENT TRANSACTIONS ===================== -->
+  <div *ngIf="auth.isAdmin() || auth.isCashier()" class="card mt-4 shadow-sm">
+    <div class="card-header bg-primary text-white fw-bold">Recent Transactions</div>
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th>Date</th>
+            <th>Invoice</th>
+            <th>Customer</th>
+            <th class="text-end">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tx of dashboard.recentTransactions; trackBy: trackByInvoice" class="transaction-row">
+            <td>{{ tx.date }}</td>
+            <td class="fw-bold">#{{ tx.invoiceNo }}</td>
+            <td>{{ tx.customer }}</td>
+            <td class="text-end fw-bold text-success">{{ tx.amount | currency:'INR' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===================== LOW STOCK ===================== -->
+  <div *ngIf="auth.isAdmin() || auth.isInventory()" class="alert alert-warning mt-4 border-0 shadow-sm">
+    <div class="d-flex align-items-center">
+      <div class="alert-icon bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <div>
+        <h6 class="mb-2 text-warning fw-bold">Low Stock Products</h6>
+        <ul class="mb-0 list-unstyled" *ngIf="dashboard.lowStockProducts.length > 0; else noLowStock">
+          <li *ngFor="let p of dashboard.lowStockProducts; trackBy: trackByProduct" class="text-muted">
+            <span class="fw-bold text-dark">{{ p.name }}</span> – <span class="text-danger">{{ p.stockQty }} left</span>
+          </li>
+        </ul>
+        <ng-template #noLowStock>
+          <p class="text-muted mb-0" *ngIf="dashboard.lowStockCount > 0; else noLowStockAtAll">
+            Low stock count: {{ dashboard.lowStockCount }} 
+          </p>
+          <ng-template #noLowStockAtAll>
+            <p class="text-muted mb-0">No low stock products at the moment.</p>
+          </ng-template>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== RECENT PRODUCTS ===================== -->
+  <div *ngIf="auth.isInventory()" class="card mt-4 shadow-sm">
+    <div class="card-header bg-accent text-dark fw-bold">Recent Products</div>
+    <div class="table-responsive">
+      <table class="table mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Name</th>
+            <th>Stock</th>
+            <th class="text-end">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of dashboard.recentProducts; trackBy: trackByProduct" class="product-row">
+            <td class="fw-bold">{{ p.name }}</td>
+            <td>
+              <span class="stock-badge" [ngClass]="{'bg-success text-white': p.stockQty > 0, 'bg-danger text-white': p.stockQty <= 0}">
+                {{ p.stockQty }}
+              </span>
+            </td>
+            <td class="text-end fw-bold text-primary">{{ p.unitPrice | currency:'INR' }}</td>
+          </tr>
+          <tr *ngIf="!dashboard.recentProducts || dashboard.recentProducts.length === 0">
+            <td colspan="3" class="text-center text-muted">No recent products available</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
